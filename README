@@ -1,4 +1,8 @@
-This directory contains the GNU Compiler Collection (GCC).
+This directory contains the GNU Compiler Collection (GCC) along 
+with the necessary changes required for OpenMP to interact with 
+MAPPER [1] (repo found here: https://github.com/sharanyansrikanthan/SAM-MAP)
+
+For configuring and compiling instructions, look below. 
 
 The GNU Compiler Collection is free software.  See the files whose
 names start with COPYING for copying permission.  The manuals, and
@@ -20,3 +24,28 @@ Copyright years on GCC source files may be listed using range
 notation, e.g., 1987-2012, indicating that every year in the range,
 inclusive, is a copyrightable year that could otherwise be listed
 individually.
+
+Configuring: 
+
+OpenMP integrated with MAPPER is build on top of the GCC compiler.
+All the configuration options available to compile GCC are available
+with this package also. The configuration parameters used to build the
+system is 
+
+./configure --prefix=<path for build> --enable-languages=c,c++,fortran 
+--disable-multilib --disable-bootstrap --with-system-zlib
+
+Building: 
+
+The build was performed using: 
+sudo make -j <number of cores>
+sudo make DESTDIR=<path for installation> install
+
+For compiling applictions, include the following:
+-fopenmp -static -L/<path of installation>/usr/local/lib64/libgomp -lgomp -lrt
+
+[1] Sharanyan Srikanthan, Princeton Ferro, Sayak Chakraborti, and 
+Sandhya Dwarkadas. 2019. Managing application parallelism via 
+parallel efficiency regulation: poster. In Proceedings of the 24th 
+ACM SIGPLAN Symposium on Principles and Practice of Parallel 
+Programming, Washington, DC, USA, February 16-20, pages 437-438.
